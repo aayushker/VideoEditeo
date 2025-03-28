@@ -20,8 +20,8 @@ A clean, intuitive video editor web application inspired by veed.io. Built with 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/video-editeo.git
-cd video-editeo
+git clone https://github.com/aayushker/VideoEditeo.git
+cd VideoEditeo
 ```
 
 2. Install dependencies:
