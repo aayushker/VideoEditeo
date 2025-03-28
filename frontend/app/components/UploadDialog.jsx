@@ -109,7 +109,12 @@ const UploadDialog = ({ opened, onClose, onUpload }) => {
             'linear-gradient(to bottom, #e6f0ff, #f0f7ff)' : 
             'linear-gradient(to bottom, #f8f9fa, #f0f2f5)',
         })}
-        onClick={handleBoxClick}
+        onClick={(e) => {
+          // Make the entire box clickable for better UX
+          if (fileInputRef.current) {
+            fileInputRef.current.click();
+          }
+        }}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -121,7 +126,11 @@ const UploadDialog = ({ opened, onClose, onUpload }) => {
           variant="filled" 
           color="blue" 
           leftIcon={<FiUpload size={14} />} 
-          onClick={e => e.stopPropagation()}
+          onClick={(e) => {
+            if (fileInputRef.current) {
+              fileInputRef.current.click();
+            }
+          }}
           radius="xl"
           sx={{ boxShadow: '0 4px 8px rgba(59, 130, 246, 0.2)' }}
         >

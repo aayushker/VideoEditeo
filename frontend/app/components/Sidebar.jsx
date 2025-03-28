@@ -54,6 +54,11 @@ const Sidebar = ({
     };
     
     onMediaUpload(newMedia);
+    
+    // Reset file state after a short delay to allow for new uploads
+    setTimeout(() => {
+      setFile(null);
+    }, 1000);
   };
 
   const handleWidthChange = (value) => {
@@ -262,10 +267,15 @@ const Sidebar = ({
           styles={{ input: { background: '#f9f9f9' } }}
           disabled={file !== null}
           description="Supports images and videos"
+          clickable={true}
         />
         <Box 
           className="upload-zone" 
-          onClick={() => document.querySelector('input[type="file"]').click()}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            document.querySelector('input[type="file"]').click();
+          }}
           sx={(theme) => ({
             background: 'linear-gradient(to bottom, #f8f9fa, #f0f2f5)',
             borderRadius: theme.radius.md,
