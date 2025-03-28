@@ -18,7 +18,7 @@ const Toolbar = ({ projectName, setProjectName }) => {
         </ActionIcon>
         <div className="project-title">
           <Group spacing={8}>
-            <Text fw={700} size="md" className="gradient-text">
+            <Text fw={700} size="md" className="project-name">
               {projectName || 'Project Name'}
             </Text>
             <Tooltip label="Edit project name">
@@ -28,8 +28,8 @@ const Toolbar = ({ projectName, setProjectName }) => {
             </Tooltip>
           </Group>
           <Group spacing={6}>
-            <FiClock size={12} style={{ color: '#adb5bd' }} />
-            <Text size="xs" color="dimmed">Auto-saved 2 minutes ago</Text>
+            <FiClock size={12} style={{ color: '#555' }} />
+            <Text size="xs" color="dark">Auto-saved 2 minutes ago</Text>
           </Group>
         </div>
       </Group>
@@ -54,7 +54,7 @@ const Toolbar = ({ projectName, setProjectName }) => {
               variant="subtle"
               size="sm"
               rightIcon={<FiMoreVertical size={14} />}
-              color="gray"
+              color="dark"
             >
               Options
             </Button>
@@ -79,8 +79,10 @@ const Toolbar = ({ projectName, setProjectName }) => {
           styles={(theme) => ({
             root: { width: '200px' },
             input: { 
-              background: '#f5f5f5',
-              borderColor: theme.colors.gray[3],
+              background: '#f0f0f0',
+              borderColor: theme.colors.gray[4],
+              color: '#333',
+              fontWeight: 500,
               '&:focus': {
                 borderColor: theme.colors.blue[5]
               }
@@ -109,6 +111,7 @@ const Toolbar = ({ projectName, setProjectName }) => {
             leftIcon={<FiDownload size={14} />} 
             radius="xl"
             className="export-button"
+            fw={600}
           >
             Export
           </Button>

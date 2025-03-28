@@ -22,6 +22,16 @@ const MediaElement = ({
   const [visible, setVisible] = useState(false);
   const [hovered, setHovered] = useState(false);
 
+  // Update local state when media props change (for sidebar dimension updates)
+  useEffect(() => {
+    setSize({ width: media.width, height: media.height });
+  }, [media.width, media.height]);
+
+  // Update position when media position changes
+  useEffect(() => {
+    setPosition({ x: media.position.x, y: media.position.y });
+  }, [media.position.x, media.position.y]);
+
   useEffect(() => {
     // Check if the media should be visible based on start and end time
     if (isPlaying) {

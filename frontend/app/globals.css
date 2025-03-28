@@ -179,6 +179,7 @@ body {
   font-size: 12px;
   cursor: pointer;
   top: 5px;
+  font-weight: 600;
 }
 
 /* React Resizable Styles */
@@ -269,31 +270,33 @@ body {
 }
 
 .sidebar-menu-item {
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .sidebar-menu-item:hover {
-  background-color: #f0f5ff;
-}
-
-.sidebar-menu-item.active {
   background-color: #e6f0ff;
 }
 
+.sidebar-menu-item.active {
+  background-color: #dbeafe;
+}
+
 .sidebar-title {
-  color: #2c3e50;
+  color: #222;
   letter-spacing: -0.2px;
+  font-weight: 700;
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+  font-weight: 700;
 }
 
 .toolbar {
@@ -420,6 +423,7 @@ body {
 .mantine-Tooltip-tooltip {
   font-size: 12px;
   padding: 4px 8px;
+  font-weight: 500;
 }
 
 /* Additional transitions */
@@ -472,4 +476,25 @@ body {
 /* Canvas height transitions */
 .canvas-container .canvas {
   transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+.project-name {
+  color: #1e3a8a;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Enhance number inputs */
+.mantine-NumberInput-input {
+  font-size: 14px !important;
+}
+
+.mantine-NumberInput-label {
+  font-weight: 500 !important;
+  margin-bottom: 4px !important;
+}
+
+/* Button text */
+.mantine-Button-label {
+  font-weight: 600;
 }

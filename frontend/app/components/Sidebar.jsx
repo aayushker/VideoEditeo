@@ -173,13 +173,13 @@ const Sidebar = ({
 
     return (
       <Box p="md" className="sidebar-properties">
-        <Text fw={600} size="md" mb="md" className="sidebar-title">
+        <Text fw={700} size="md" mb="md" className="sidebar-title">
           {selectedMedia.type === 'image' ? 'Image Properties' : 'Video Properties'}
         </Text>
         
         <Divider mb="md" />
         
-        <Text size="sm" fw={500} mb="xs" color="dimmed">Dimensions</Text>
+        <Text size="sm" fw={600} mb="xs" color="dark">Dimensions</Text>
         <Group grow mb="md">
           <NumberInput
             label="Width"
@@ -188,7 +188,18 @@ const Sidebar = ({
             min={50}
             max={1920}
             step={1}
-            styles={{ input: { background: '#f9f9f9' } }}
+            styles={{ 
+              label: { 
+                color: '#444',
+                fontWeight: 500
+              },
+              input: { 
+                background: '#f5f5f5',
+                borderColor: '#d0d0d0',
+                color: '#333',
+                fontWeight: 500
+              } 
+            }}
           />
           <NumberInput
             label="Height"
@@ -197,13 +208,24 @@ const Sidebar = ({
             min={50}
             max={1080}
             step={1}
-            styles={{ input: { background: '#f9f9f9' } }}
+            styles={{ 
+              label: { 
+                color: '#444',
+                fontWeight: 500
+              },
+              input: { 
+                background: '#f5f5f5',
+                borderColor: '#d0d0d0',
+                color: '#333',
+                fontWeight: 500
+              } 
+            }}
           />
         </Group>
         
         <Divider mb="md" />
         
-        <Text size="sm" fw={500} mb="xs" color="dimmed">Timing</Text>
+        <Text size="sm" fw={600} mb="xs" color="dark">Timing</Text>
         <Group grow mb="md">
           <NumberInput
             label="Start Time (s)"
@@ -213,7 +235,18 @@ const Sidebar = ({
             max={60}
             step={0.1}
             precision={1}
-            styles={{ input: { background: '#f9f9f9' } }}
+            styles={{ 
+              label: { 
+                color: '#444',
+                fontWeight: 500
+              },
+              input: { 
+                background: '#f5f5f5',
+                borderColor: '#d0d0d0',
+                color: '#333',
+                fontWeight: 500
+              } 
+            }}
           />
           <NumberInput
             label="End Time (s)"
@@ -223,7 +256,18 @@ const Sidebar = ({
             max={60}
             step={0.1}
             precision={1}
-            styles={{ input: { background: '#f9f9f9' } }}
+            styles={{ 
+              label: { 
+                color: '#444',
+                fontWeight: 500
+              },
+              input: { 
+                background: '#f5f5f5',
+                borderColor: '#d0d0d0',
+                color: '#333',
+                fontWeight: 500
+              } 
+            }}
           />
         </Group>
 
@@ -231,12 +275,12 @@ const Sidebar = ({
           <>
             <Divider mb="md" />
             <Group position="apart" mb="xs">
-              <Text size="sm" fw={500}>Mute</Text>
+              <Text size="sm" fw={600} color="dark">Mute</Text>
               <Switch size="md" color="blue" />
             </Group>
 
             <Divider mb="md" />
-            <Text size="sm" fw={500} mb="xs" color="dimmed">Effects</Text>
+            <Text size="sm" fw={600} mb="xs" color="dark">Effects</Text>
             <Group grow>
               <Tooltip label="Under development" position="top" withArrow>
                 <Button size="xs" variant="outline" leftIcon={<FiVideo size={14} />}>Trim</Button>
@@ -257,14 +301,27 @@ const Sidebar = ({
 
     return (
       <Box p="md" className="sidebar-upload">
-        <Text fw={600} size="md" mb="md" className="sidebar-title">Media Library</Text>
+        <Text fw={700} size="md" mb="md" className="sidebar-title">Media Library</Text>
         <FileInput
           placeholder="Upload media file"
           accept="image/*,video/*"
           onChange={handleFileUpload}
           icon={<FiUpload size={14} />}
           mb="md"
-          styles={{ input: { background: '#f9f9f9' } }}
+          styles={{ 
+            input: { 
+              background: '#f5f5f5',
+              borderColor: '#d0d0d0',
+              color: '#333'
+            },
+            label: {
+              color: '#444',
+              fontWeight: 500
+            },
+            description: {
+              color: '#555'
+            }
+          }}
           disabled={file !== null}
           description="Supports images and videos"
           clickable={true}
@@ -283,12 +340,12 @@ const Sidebar = ({
           })}
         >
           <FiUpload size={32} style={{ margin: '0 auto', display: 'block', marginBottom: '15px', color: '#3c81f6' }} />
-          <Text fw={500}>Drop files here</Text>
-          <Text size="xs" color="dimmed" mt="xs">or click to upload</Text>
+          <Text fw={600} color="dark">Drop files here</Text>
+          <Text size="xs" color="dark" mt="xs">or click to upload</Text>
         </Box>
 
         <Stack mt="xl" spacing="xs">
-          <Text fw={500} mb="xs" size="sm">Recent Files</Text>
+          <Text fw={600} mb="xs" size="sm" color="dark">Recent Files</Text>
           <Tooltip label="Under development" position="right" withArrow>
             <Text size="xs" color="dimmed" style={{ fontStyle: 'italic' }}>No recent files found</Text>
           </Tooltip>
