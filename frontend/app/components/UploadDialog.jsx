@@ -7,9 +7,11 @@ import {
   Button, 
   Group, 
   Box, 
-  useMantineTheme 
+  useMantineTheme,
+  Tooltip,
+  Stack
 } from '@mantine/core';
-import { FiUpload, FiVideo, FiImage } from 'react-icons/fi';
+import { FiUpload, FiVideo, FiImage, FiInfo } from 'react-icons/fi';
 
 const UploadDialog = ({ opened, onClose, onUpload }) => {
   const theme = useMantineTheme();
@@ -60,17 +62,41 @@ const UploadDialog = ({ opened, onClose, onUpload }) => {
       handleFileUpload(e.target.files[0]);
     }
   };
+  
+  // Prevent the default click behavior that might trigger multiple file dialogs
+  const handleBoxClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    fileInputRef.current.click();
+  };
 
   return (
     <Modal 
       opened={opened} 
       onClose={onClose} 
-      title="Let's make a video!" 
+      title={
+        <Text fw={700} size="xl" className="gradient-text" style={{ marginBottom: '8px' }}>
+          Let's make a video!
+        </Text>
+      }
       centered
       size="lg"
+      radius="md"
+      overlayProps={{
+        blur: 3,
+        opacity: 0.55,
+      }}
+      styles={{
+        header: {
+          marginBottom: '10px'
+        },
+        content: {
+          boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+        }
+      }}
     >
       <Box 
-        sx={{
+        sx={(theme) => ({
           border: `2px dashed ${dragOver ? theme.colors.blue[5] : theme.colors.gray[3]}`,
           borderRadius: theme.radius.md,
           padding: 50,
@@ -79,16 +105,26 @@ const UploadDialog = ({ opened, onClose, onUpload }) => {
           backgroundColor: dragOver ? theme.colors.blue[0] : theme.colors.gray[0],
           transition: 'all 0.2s ease',
           cursor: 'pointer',
-        }}
-        onClick={() => fileInputRef.current.click()}
+          backgroundImage: dragOver ? 
+            'linear-gradient(to bottom, #e6f0ff, #f0f7ff)' : 
+            'linear-gradient(to bottom, #f8f9fa, #f0f2f5)',
+        })}
+        onClick={handleBoxClick}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
         <FiUpload size={48} style={{ margin: '0 auto', display: 'block', marginBottom: 10, color: theme.colors.blue[5] }} />
-        <Text size="xl" weight={500} mb="xs">Upload files</Text>
+        <Text size="xl" weight={600} mb="xs">Upload files</Text>
         <Text size="sm" color="dimmed" mb="sm">Choose files or drag them here</Text>
-        <Button variant="outline" leftIcon={<FiUpload size={14} />} onClick={() => fileInputRef.current.click()}>
+        <Button 
+          variant="filled" 
+          color="blue" 
+          leftIcon={<FiUpload size={14} />} 
+          onClick={e => e.stopPropagation()}
+          radius="xl"
+          sx={{ boxShadow: '0 4px 8px rgba(59, 130, 246, 0.2)' }}
+        >
           Choose files
         </Button>
         <input 
@@ -101,21 +137,49 @@ const UploadDialog = ({ opened, onClose, onUpload }) => {
       </Box>
 
       <Group position="center" grow>
-        <Button 
-          leftIcon={<FiVideo />} 
-          variant="light"
-          onClick={() => {}}
-        >
-          Start by recording
-        </Button>
-        <Button 
-          leftIcon={<FiImage />} 
-          variant="light"
-          onClick={() => {}}
-        >
-          Start with AI
-        </Button>
+        <Tooltip label="Under development" withArrow>
+          <Button 
+            leftIcon={<FiVideo />} 
+            variant="light"
+            color="blue"
+            radius="md"
+            disabled
+          >
+            Start by recording
+          </Button>
+        </Tooltip>
+        <Tooltip label="Under development" withArrow>
+          <Button 
+            leftIcon={<FiImage />} 
+            variant="light"
+            color="indigo"
+            radius="md"
+            disabled
+          >
+            Start with AI
+          </Button>
+        </Tooltip>
       </Group>
+      
+      <Box 
+        sx={{ 
+          marginTop: 20, 
+          padding: 15, 
+          backgroundColor: theme.colors.gray[0], 
+          borderRadius: theme.radius.md,
+          borderLeft: `4px solid ${theme.colors.blue[3]}`
+        }}
+      >
+        <Group spacing="sm">
+          <FiInfo size={18} style={{ color: theme.colors.blue[5] }} />
+          <Stack spacing={0}>
+            <Text size="sm" fw={500}>Pro tip</Text>
+            <Text size="xs" color="dimmed">
+              Upload videos and images to create your project. You can then drag, resize, and set timing for each element.
+            </Text>
+          </Stack>
+        </Group>
+      </Box>
     </Modal>
   );
 };

@@ -267,3 +267,209 @@ body {
   border: 2px solid #0056d6 !important;
   z-index: 10;
 }
+
+.sidebar-menu-item {
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-menu-item:hover {
+  background-color: #f0f5ff;
+}
+
+.sidebar-menu-item.active {
+  background-color: #e6f0ff;
+}
+
+.sidebar-title {
+  color: #2c3e50;
+  letter-spacing: -0.2px;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.toolbar {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.project-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-icon {
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.edit-icon:hover {
+  opacity: 1;
+}
+
+.menu-button:hover {
+  background-color: #f0f0f0;
+}
+
+.signup-button {
+  border-color: #4f46e5;
+  color: #4f46e5;
+  transition: all 0.2s ease;
+}
+
+.signup-button:hover {
+  background-color: #4f46e510;
+}
+
+.export-button {
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(59, 130, 246, 0.2);
+}
+
+.export-button:hover {
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Make sure resizable corners are more visible */
+.react-resizable-handle {
+  width: 24px;
+  height: 24px;
+  padding: 6px;
+  box-sizing: border-box;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.react-resizable-handle:hover {
+  opacity: 1;
+}
+
+.resizable-element.selected {
+  border: 2px dashed var(--primary-color) !important;
+  box-shadow: 0 0 0 1px rgba(60, 129, 246, 0.2);
+}
+
+/* Fix for video display */
+.media-element video {
+  pointer-events: none; /* Prevents video clicking issues */
+}
+
+.media-element.selected video,
+.media-element.selected img {
+  pointer-events: auto;
+}
+
+/* Enhance the timeline look */
+.timeline {
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.timeline-marker {
+  box-shadow: 0 0 4px rgba(60, 129, 246, 0.5);
+  cursor: pointer;
+}
+
+.timeline-item {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.timeline-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.upload-zone {
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: pointer;
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+}
+
+/* Handle for drag */
+.drag-handle {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.media-element:hover .drag-handle,
+.media-element.selected .drag-handle {
+  opacity: 1;
+}
+
+/* Timeline enhancements */
+.play-button {
+  transition: all 0.2s ease;
+}
+
+.play-button:hover {
+  transform: scale(1.1);
+}
+
+/* Tooltip styling */
+.mantine-Tooltip-tooltip {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+/* Additional transitions */
+.timeline-item {
+  transition: all 0.15s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Media controls */
+.media-controls {
+  opacity: 0;
+  transform: translateY(5px);
+  transition: all 0.2s ease;
+}
+
+.media-element:hover .media-controls,
+.media-element.selected .media-controls {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.media-element.selected {
+  z-index: 100;
+}
+
+/* Canvas with grid */
+.canvas.with-grid {
+  background-size: 20px 20px;
+  background-color: black;
+}
+
+/* Canvas height transitions */
+.canvas-container .canvas {
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+}

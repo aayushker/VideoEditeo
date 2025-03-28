@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Box, Group, ActionIcon, Text } from '@mantine/core';
-import { FiPlay, FiPause, FiSkipBack } from 'react-icons/fi';
+import { Box, Group, ActionIcon, Text, Tooltip, Slider, Progress } from '@mantine/core';
+import { FiPlay, FiPause, FiSkipBack, FiVolume2, FiVolumeX, FiZoomIn, FiZoomOut } from 'react-icons/fi';
 
 const TIMELINE_DURATION = 60; // 60 seconds total timeline
 const TIMELINE_WIDTH = 1000; // px
@@ -19,6 +19,9 @@ const Timeline = ({
   const timelineRef = useRef(null);
   const [isDraggingMarker, setIsDraggingMarker] = useState(false);
   const [timeMarkersCount, setTimeMarkersCount] = useState(12); // Number of time markers
+  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(80);
+  const [zoomLevel, setZoomLevel] = useState(1);
   
   // Update marker position when playing
   useEffect(() => {
@@ -101,13 +104,18 @@ const Timeline = ({
             left: `${position}%`, 
             height: '100%', 
             width: '1px', 
-            backgroundColor: '#ddd',
+            backgroundColor: i % 2 === 0 ? '#ccc' : '#ddd',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center', 
           }}
         >
-          <span style={{ fontSize: '10px', color: '#666', marginTop: '2px' }}>
+          <span style={{ 
+            fontSize: '10px', 
+            color: '#666', 
+            marginTop: '2px',
+            fontWeight: i % 2 === 0 ? 500 : 400,
+          }}>
             {formatTime(timeVal)}
           </span>
         </div>
@@ -132,31 +140,131 @@ const Timeline = ({
           style={{
             left: `${startPosition}%`,
             width: `${width}%`,
-            backgroundColor: isSelected ? '#2684ff' : '#3c81f6',
+            backgroundColor: isSelected ? '#2684ff' : media.type === 'video' ? '#3c81f6' : '#4dabf7',
             border: isSelected ? '2px solid #0056d6' : 'none',
+            position: 'absolute',
+            height: '70px',
+            borderRadius: '4px',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '12px',
+            cursor: 'pointer',
+            top: '5px',
+            overflow: 'hidden',
           }}
           onClick={(e) => {
             e.stopPropagation();
             onSelectMedia(media.id);
           }}
         >
-          {media.type === 'image' ? 'Image' : 'Video'}
+          <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            padding: '4px',
+            textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+          }}>
+            <Text size="sm" fw={500}>{media.type === 'image' ? 'Image' : 'Video'}</Text>
+            <Text size="xs" color="rgba(255,255,255,0.8)">
+              {formatTime(media.startTime)} - {formatTime(media.endTime)}
+            </Text>
+          </div>
         </div>
       );
     });
+  };
+  
+  // Timeline zoom controls
+  const handleZoomIn = () => {
+    setZoomLevel(Math.min(zoomLevel + 0.2, 2));
+  };
+  
+  const handleZoomOut = () => {
+    setZoomLevel(Math.max(zoomLevel - 0.2, 0.5));
   };
   
   return (
     <div className="timeline">
       <Group position="apart" p="xs">
         <Group>
-          <ActionIcon size="md" onClick={handleReset}>
-            <FiSkipBack />
-          </ActionIcon>
-          <ActionIcon size="md" onClick={() => onPlayPause(!isPlaying)}>
-            {isPlaying ? <FiPause /> : <FiPlay />}
-          </ActionIcon>
-          <Text size="sm">{formatTime(currentTime)} / {formatTime(TIMELINE_DURATION)}</Text>
+          <Tooltip label="Reset" position="top" withArrow>
+            <ActionIcon size="md" onClick={handleReset} color="gray" variant="subtle" radius="xl">
+              <FiSkipBack />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label={isPlaying ? "Pause" : "Play"} position="top" withArrow>
+            <ActionIcon 
+              size="md" 
+              onClick={() => onPlayPause(!isPlaying)} 
+              color="blue" 
+              variant={isPlaying ? "filled" : "light"}
+              radius="xl"
+              className="play-button"
+            >
+              {isPlaying ? <FiPause /> : <FiPlay />}
+            </ActionIcon>
+          </Tooltip>
+          <Text size="sm" fw={500} style={{ 
+            minWidth: '80px', 
+            padding: '4px 8px', 
+            backgroundColor: '#f0f2f5', 
+            borderRadius: '4px' 
+          }}>
+            {formatTime(currentTime)} / {formatTime(TIMELINE_DURATION)}
+          </Text>
+        </Group>
+        
+        <Group>
+          <Group position="center" spacing={5}>
+            <Tooltip label="Zoom out" position="top" withArrow>
+              <ActionIcon 
+                size="sm" 
+                onClick={handleZoomOut}
+                disabled={zoomLevel <= 0.5}
+                variant="subtle"
+                color="gray"
+              >
+                <FiZoomOut size={14} />
+              </ActionIcon>
+            </Tooltip>
+            <Text size="xs" color="dimmed" style={{ width: '30px', textAlign: 'center' }}>
+              {Math.round(zoomLevel * 100)}%
+            </Text>
+            <Tooltip label="Zoom in" position="top" withArrow>
+              <ActionIcon 
+                size="sm" 
+                onClick={handleZoomIn}
+                disabled={zoomLevel >= 2}
+                variant="subtle"
+                color="gray"
+              >
+                <FiZoomIn size={14} />
+              </ActionIcon>
+            </Tooltip>
+          </Group>
+          
+          <Tooltip label="Volume (under development)" position="top" withArrow>
+            <Group spacing={5} noWrap style={{ width: '120px' }}>
+              <ActionIcon 
+                size="sm" 
+                onClick={() => setIsMuted(!isMuted)}
+                variant="subtle"
+                color="gray"
+              >
+                {isMuted ? <FiVolumeX size={14} /> : <FiVolume2 size={14} />}
+              </ActionIcon>
+              <Slider
+                value={isMuted ? 0 : volume}
+                onChange={setVolume}
+                size="xs"
+                style={{ flex: 1 }}
+                color="blue"
+                disabled
+              />
+            </Group>
+          </Tooltip>
         </Group>
       </Group>
       
@@ -164,23 +272,57 @@ const Timeline = ({
         className="timeline-ruler" 
         ref={timelineRef} 
         onClick={handleTimelineClick}
-        style={{ width: `${TIMELINE_WIDTH}px`, overflow: 'hidden' }}
+        style={{ 
+          width: `${TIMELINE_WIDTH * zoomLevel}px`, 
+          overflow: 'hidden',
+          position: 'relative',
+          height: '20px',
+          backgroundColor: '#f5f5f5',
+          borderBottom: '1px solid var(--border-color)',
+        }}
       >
         {renderTimeMarkers()}
         <div 
           className="timeline-marker" 
-          style={{ left: 0 }}
+          style={{ 
+            left: 0,
+            position: 'absolute',
+            top: 0,
+            height: '100%',
+            width: '2px',
+            backgroundColor: 'var(--primary-color)',
+            zIndex: 2,
+          }}
           onMouseDown={handleMarkerMouseDown}
         />
       </div>
       
       <div 
         className="timeline-items" 
-        style={{ width: `${TIMELINE_WIDTH}px` }}
+        style={{ 
+          width: `${TIMELINE_WIDTH * zoomLevel}px`,
+          display: 'flex',
+          position: 'relative',
+          height: 'calc(100% - 20px)',
+          backgroundColor: '#f8f9fa',
+          overflowX: 'hidden',
+          borderLeft: '1px solid var(--border-color)',
+          borderRight: '1px solid var(--border-color)',
+        }}
         onClick={handleTimelineClick}
       >
         {renderMediaItems()}
       </div>
+      
+      <Progress 
+        value={(currentTime / TIMELINE_DURATION) * 100} 
+        size="xs" 
+        color="blue" 
+        style={{ 
+          marginTop: '1px',
+          borderRadius: 0 
+        }} 
+      />
     </div>
   );
 };

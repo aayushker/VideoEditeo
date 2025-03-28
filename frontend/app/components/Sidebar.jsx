@@ -10,7 +10,9 @@ import {
   Button, 
   Divider,
   Switch,
-  FileInput
+  FileInput,
+  Tooltip,
+  ThemeIcon
 } from '@mantine/core';
 import { 
   FiUpload, 
@@ -20,7 +22,9 @@ import {
   FiFile, 
   FiMusic, 
   FiType, 
-  FiLayers 
+  FiLayers,
+  FiVideo,
+  FiImage
 } from 'react-icons/fi';
 
 const Sidebar = ({ 
@@ -88,17 +92,74 @@ const Sidebar = ({
     }
   };
 
-  // Render sidebar icons for left sidebar
+  // Render sidebar icons for left sidebar with labels
   const renderSidebarIcons = () => (
-    <Stack spacing="lg" align="center" py="md">
-      <FiSearch size={20} />
-      <FiSettings size={20} />
-      <FiPackage size={20} />
-      <FiFile size={20} />
-      <FiMusic size={20} />
-      <FiType size={20} />
-      <FiLayers size={20} />
-    </Stack>
+    <Box p="md">
+      <Stack spacing="md">
+        <Tooltip label="Search" position="right" withArrow>
+          <Group spacing="md" className="sidebar-menu-item">
+            <ThemeIcon variant="light" color="blue" size="md" radius="md">
+              <FiSearch size={16} />
+            </ThemeIcon>
+            <Text size="sm" fw={500}>Search</Text>
+          </Group>
+        </Tooltip>
+        
+        <Tooltip label="Settings" position="right" withArrow>
+          <Group spacing="md" className="sidebar-menu-item">
+            <ThemeIcon variant="light" color="blue" size="md" radius="md">
+              <FiSettings size={16} />
+            </ThemeIcon>
+            <Text size="sm" fw={500}>Settings</Text>
+          </Group>
+        </Tooltip>
+
+        <Tooltip label="Brand Kits" position="right" withArrow>
+          <Group spacing="md" className="sidebar-menu-item">
+            <ThemeIcon variant="light" color="blue" size="md" radius="md">
+              <FiPackage size={16} />
+            </ThemeIcon>
+            <Text size="sm" fw={500}>Brand Kits</Text>
+          </Group>
+        </Tooltip>
+
+        <Tooltip label="Media" position="right" withArrow>
+          <Group spacing="md" className="sidebar-menu-item active">
+            <ThemeIcon variant="filled" color="blue" size="md" radius="md">
+              <FiFile size={16} />
+            </ThemeIcon>
+            <Text size="sm" fw={600}>Media</Text>
+          </Group>
+        </Tooltip>
+
+        <Tooltip label="Audio" position="right" withArrow>
+          <Group spacing="md" className="sidebar-menu-item">
+            <ThemeIcon variant="light" color="blue" size="md" radius="md">
+              <FiMusic size={16} />
+            </ThemeIcon>
+            <Text size="sm" fw={500}>Audio</Text>
+          </Group>
+        </Tooltip>
+
+        <Tooltip label="Text" position="right" withArrow>
+          <Group spacing="md" className="sidebar-menu-item">
+            <ThemeIcon variant="light" color="blue" size="md" radius="md">
+              <FiType size={16} />
+            </ThemeIcon>
+            <Text size="sm" fw={500}>Text</Text>
+          </Group>
+        </Tooltip>
+
+        <Tooltip label="Elements" position="right" withArrow>
+          <Group spacing="md" className="sidebar-menu-item">
+            <ThemeIcon variant="light" color="blue" size="md" radius="md">
+              <FiLayers size={16} />
+            </ThemeIcon>
+            <Text size="sm" fw={500}>Elements</Text>
+          </Group>
+        </Tooltip>
+      </Stack>
+    </Box>
   );
 
   // Render media properties when a media is selected
@@ -106,12 +167,14 @@ const Sidebar = ({
     if (!selectedMedia) return null;
 
     return (
-      <Box p="md">
-        <Text fw={500} mb="md">{selectedMedia.type === 'image' ? 'Image Properties' : 'Video Properties'}</Text>
+      <Box p="md" className="sidebar-properties">
+        <Text fw={600} size="md" mb="md" className="sidebar-title">
+          {selectedMedia.type === 'image' ? 'Image Properties' : 'Video Properties'}
+        </Text>
         
         <Divider mb="md" />
         
-        <Text size="sm" mb="xs">Dimensions</Text>
+        <Text size="sm" fw={500} mb="xs" color="dimmed">Dimensions</Text>
         <Group grow mb="md">
           <NumberInput
             label="Width"
@@ -120,6 +183,7 @@ const Sidebar = ({
             min={50}
             max={1920}
             step={1}
+            styles={{ input: { background: '#f9f9f9' } }}
           />
           <NumberInput
             label="Height"
@@ -128,12 +192,13 @@ const Sidebar = ({
             min={50}
             max={1080}
             step={1}
+            styles={{ input: { background: '#f9f9f9' } }}
           />
         </Group>
         
         <Divider mb="md" />
         
-        <Text size="sm" mb="xs">Timing</Text>
+        <Text size="sm" fw={500} mb="xs" color="dimmed">Timing</Text>
         <Group grow mb="md">
           <NumberInput
             label="Start Time (s)"
@@ -143,6 +208,7 @@ const Sidebar = ({
             max={60}
             step={0.1}
             precision={1}
+            styles={{ input: { background: '#f9f9f9' } }}
           />
           <NumberInput
             label="End Time (s)"
@@ -152,6 +218,7 @@ const Sidebar = ({
             max={60}
             step={0.1}
             precision={1}
+            styles={{ input: { background: '#f9f9f9' } }}
           />
         </Group>
 
@@ -159,8 +226,19 @@ const Sidebar = ({
           <>
             <Divider mb="md" />
             <Group position="apart" mb="xs">
-              <Text size="sm">Mute</Text>
-              <Switch size="md" />
+              <Text size="sm" fw={500}>Mute</Text>
+              <Switch size="md" color="blue" />
+            </Group>
+
+            <Divider mb="md" />
+            <Text size="sm" fw={500} mb="xs" color="dimmed">Effects</Text>
+            <Group grow>
+              <Tooltip label="Under development" position="top" withArrow>
+                <Button size="xs" variant="outline" leftIcon={<FiVideo size={14} />}>Trim</Button>
+              </Tooltip>
+              <Tooltip label="Under development" position="top" withArrow>
+                <Button size="xs" variant="outline" leftIcon={<FiImage size={14} />}>Filter</Button>
+              </Tooltip>
             </Group>
           </>
         )}
@@ -173,20 +251,38 @@ const Sidebar = ({
     if (selectedMedia) return null;
 
     return (
-      <Box p="md">
-        <Text fw={500} mb="md">Media</Text>
+      <Box p="md" className="sidebar-upload">
+        <Text fw={600} size="md" mb="md" className="sidebar-title">Media Library</Text>
         <FileInput
           placeholder="Upload media file"
           accept="image/*,video/*"
           onChange={handleFileUpload}
           icon={<FiUpload size={14} />}
           mb="md"
+          styles={{ input: { background: '#f9f9f9' } }}
+          disabled={file !== null}
+          description="Supports images and videos"
         />
-        <Box className="upload-zone" onClick={() => document.querySelector('input[type="file"]').click()}>
-          <FiUpload size={24} style={{ margin: '0 auto', display: 'block', marginBottom: '10px' }} />
-          <Text>Drop files here or click to upload</Text>
-          <Text size="xs" color="dimmed" mt="xs">Supports images and videos</Text>
+        <Box 
+          className="upload-zone" 
+          onClick={() => document.querySelector('input[type="file"]').click()}
+          sx={(theme) => ({
+            background: 'linear-gradient(to bottom, #f8f9fa, #f0f2f5)',
+            borderRadius: theme.radius.md,
+            boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.05)'
+          })}
+        >
+          <FiUpload size={32} style={{ margin: '0 auto', display: 'block', marginBottom: '15px', color: '#3c81f6' }} />
+          <Text fw={500}>Drop files here</Text>
+          <Text size="xs" color="dimmed" mt="xs">or click to upload</Text>
         </Box>
+
+        <Stack mt="xl" spacing="xs">
+          <Text fw={500} mb="xs" size="sm">Recent Files</Text>
+          <Tooltip label="Under development" position="right" withArrow>
+            <Text size="xs" color="dimmed" style={{ fontStyle: 'italic' }}>No recent files found</Text>
+          </Tooltip>
+        </Stack>
       </Box>
     );
   };

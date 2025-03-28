@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Box, Button } from '@mantine/core';
+import { Box, Button, Loader, Center, Text } from '@mantine/core';
 import Sidebar from './components/Sidebar';
 import Canvas from './components/Canvas';
 import Timeline from './components/Timeline';
@@ -16,6 +16,7 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState(0);
   const [showUploadDialog, setShowUploadDialog] = useState(true);
   const [canvasSize, setCanvasSize] = useState({ width: 640, height: 360 }); // 16:9 aspect ratio
+  const [isLoading, setIsLoading] = useState(false);
   
   const timeoutRef = useRef(null);
   
@@ -49,8 +50,14 @@ export default function Home() {
   
   // Handle media upload
   const handleMediaUpload = (newMedia) => {
-    setMediaItems(prev => [...prev, newMedia]);
-    setSelectedMediaId(newMedia.id);
+    setIsLoading(true);
+    // Simulate loading time for large media
+    setTimeout(() => {
+      setMediaItems(prev => [...prev, newMedia]);
+      setSelectedMediaId(newMedia.id);
+      setShowUploadDialog(false);
+      setIsLoading(false);
+    }, 500);
   };
   
   // Update media item properties
@@ -82,6 +89,23 @@ export default function Home() {
     );
   };
   
+  // Handle canvas size change
+  const handleCanvasSizeChange = (size) => {
+    setCanvasSize(size);
+  };
+  
+  // Show loading state
+  if (isLoading) {
+    return (
+      <Center style={{ height: '100vh' }}>
+        <Box style={{ textAlign: 'center' }}>
+          <Loader size="lg" color="blue" />
+          <Text mt="md">Processing your media...</Text>
+        </Box>
+      </Center>
+    );
+  }
+  
   // Show empty state if no media items
   if (mediaItems.length === 0 && !showUploadDialog) {
     return (
@@ -98,11 +122,20 @@ export default function Home() {
             padding: 20
           }}
         >
-          <h1>Start by adding media to your project</h1>
-          <p style={{ marginBottom: 20 }}>Upload images or videos to begin editing</p>
+          <h1 style={{ fontSize: '28px', marginBottom: '16px' }}>Start by adding media to your project</h1>
+          <p style={{ marginBottom: '24px', color: '#666' }}>Upload images or videos to begin editing</p>
           <Button 
             size="lg" 
+            radius="xl"
             onClick={() => setShowUploadDialog(true)}
+            sx={(theme) => ({
+              background: theme.fn.linearGradient(45, '#3b82f6', '#2563eb'),
+              boxShadow: '0 4px 14px rgba(59, 130, 246, 0.25)',
+              '&:hover': {
+                boxShadow: '0 6px 20px rgba(59, 130, 246, 0.35)',
+                transform: 'translateY(-1px)'
+              }
+            })}
           >
             Upload Media
           </Button>
@@ -139,6 +172,7 @@ export default function Home() {
           selectedMediaId={selectedMediaId}
           onSelectMedia={setSelectedMediaId}
           canvasSize={canvasSize}
+          onCanvasSizeChange={handleCanvasSizeChange}
         />
         
         <Timeline
